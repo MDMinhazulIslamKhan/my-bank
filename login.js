@@ -4,4 +4,7 @@ document.getElementById('login-submit').addEventListener('click', function () {
     if (emailAddress == 'abc' && loginPassword == 'fy') {
         window.location.href = 'bank.html'
     }
+    else {
+        alert("Your email or password is not matching, আপনি কি একজন চোর?");
+    }
 })

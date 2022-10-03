@@ -1,43 +1,53 @@
-const balanceScreen = document.getElementById('balance-screen');
-const withdrawScreen = document.getElementById('withdraw-screen');
-const depositeScreen = document.getElementById('deposite-screen');
+const screenBalance = document.getElementById('balance-screen');
 
-
-// bank.html
-document.getElementById('balance-submit').addEventListener('click', function () {
-    const amountBalance = document.getElementById('balance-amount');
-    const currentScreenBalance = parseFloat(depositeScreen.innerText);
-    if (isNaN(amountBalance.value) == true || amountBalance.value == '') {
-        alert("Put your total balance");
+// working function
+function sendingVAlue(amount, whichWork) {
+    const screenDeposite = document.getElementById('deposite-screen');
+    const screenWithdraw = document.getElementById('withdraw-screen');
+    // deposite
+    if (whichWork == 'deposite') {
+        screenDeposite.innerText = parseFloat(amount.value) + parseFloat(screenDeposite.innerText);
+        screenBalance.innerText = parseFloat(screenBalance.innerText) + parseFloat(amount.value);
+        amount.value = ''
     }
+    // withdraw
+    else if (whichWork == 'withdraw') {
+        screenWithdraw.innerText = parseFloat(amount.value) + parseFloat(screenWithdraw.innerText);
+        screenBalance.innerText = parseFloat(screenBalance.innerText) - parseFloat(amount.value);
+        amount.value = ''
+    }
+    // balance
     else {
-        balanceScreen.innerText = parseFloat(amountBalance.value);
-        amountBalance.value = ''
+        screenBalance.innerText = parseFloat(amount.value) + parseFloat(screenBalance.innerText);
         document.getElementById('balanceInput').style.display = 'none';
     }
-})
-document.getElementById('deposite-submit').addEventListener('click', function () {
-    const amountDeposite = document.getElementById('deposite-amount');
-    const currentScreenDeposite = parseFloat(depositeScreen.innerText);
-    if (isNaN(amountDeposite.value) == true || amountDeposite.value == '') {
-        alert("Put your deposite amount");
-    }
-    else {
-        depositeScreen.innerText = parseFloat(amountDeposite.value) + currentScreenDeposite;
-        balanceScreen.innerText = parseFloat(balanceScreen.innerText) + parseFloat(amountDeposite.value);
-        amountDeposite.value = ''
-    }
-})
+}
 
+
+// deposite work
+document.getElementById('deposite-submit').addEventListener('click', function () {
+    const amount = document.getElementById('deposite-amount');
+    if (parseFloat(amount.value) >= 0) {
+        sendingVAlue(amount, 'deposite');
+    }
+    else alert('Put your deposite amount')
+})
+// withdraw work
 document.getElementById('withdraw-submit').addEventListener('click', function () {
-    const amountWithdraw = document.getElementById('withdraw-amount');
-    const currentScreenWithdraw = parseFloat(withdrawScreen.innerText);
-    if (isNaN(amountWithdraw.value) == true || amountWithdraw.value == '') {
-        alert("Put your withdraw amount");
+    const amount = document.getElementById('withdraw-amount');
+    if (parseFloat(amount.value) >= 0 && parseFloat(amount.value) <= parseFloat(screenBalance.innerText)) {
+        sendingVAlue(amount, 'withdraw');
     }
-    else {
-        withdrawScreen.innerText = parseFloat(amountWithdraw.value) + currentScreenWithdraw;
-        balanceScreen.innerText = parseFloat(balanceScreen.innerText) - parseFloat(amountWithdraw.value);
-        amountWithdraw.value = ''
+    else if (parseFloat(amount.value) > parseFloat(screenBalance.innerText)) {
+        alert('শাওয়া তোমার টাকা নাই')
     }
+    else alert('Put your withdraw amount')
+})
+// balance work
+document.getElementById('balance-submit').addEventListener('click', function () {
+    const amount = document.getElementById('balance-amount');
+    if (parseFloat(amount.value) >= 0) {
+        sendingVAlue(amount, 'balance');
+    }
+    else alert('Put your balance')
 })

@@ -21,6 +21,8 @@ function sendingVAlue(amount, whichWork) {
         screenBalance.innerText = parseFloat(amount.value) + parseFloat(screenBalance.innerText);
         document.getElementById('balanceInput').style.display = 'none';
     }
+    // set in local storege
+    addBalanceToStorage(screenBalance.innerText)
 }
 
 
@@ -40,6 +42,7 @@ document.getElementById('withdraw-submit').addEventListener('click', function ()
     }
     else if (parseFloat(amount.value) > parseFloat(screenBalance.innerText)) {
         alert('শাওয়া তোমার টাকা নাই')
+        amount.value = '';
     }
     else alert('Put your withdraw amount')
 })
@@ -51,3 +54,33 @@ document.getElementById('balance-submit').addEventListener('click', function () 
     }
     else alert('Put your balance')
 })
+
+// ডাটা লোকাল স্টোরেজে সেইভ করার ফাংশন
+const balanceStorage = () => {
+    const balanceFigure = localStorage.getItem('balance');
+    let balance;
+    if (balanceFigure) {
+        balance = JSON.parse(balanceFigure)
+    }
+    else {
+        balance = {};
+    }
+    return balance;
+};
+
+const addBalanceToStorage = balnc => {
+    const balance = balanceStorage();
+    balance['balance-figure'] = balnc;
+    const balanceStringify = JSON.stringify(balance);
+    localStorage.setItem('balance', balanceStringify);
+}
+
+
+const displayLocalStorageBalance = () => {
+    const balance = balanceStorage();
+    for (const z in balance) {
+        document.getElementById('balance-screen').innerText = balance[z];
+    }
+}
+
+displayLocalStorageBalance()

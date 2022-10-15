@@ -18,7 +18,7 @@ function sendingVAlue(amount, whichWork) {
     }
     // balance
     else {
-        screenBalance.innerText = parseFloat(amount.value) + parseFloat(screenBalance.innerText);
+        screenBalance.innerText = parseFloat(amount.value);
         document.getElementById('balanceInput').style.display = 'none';
     }
     // set in local storege
